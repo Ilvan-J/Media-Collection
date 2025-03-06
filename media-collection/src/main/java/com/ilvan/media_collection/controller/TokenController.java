@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.Instant;
 
 @RestController
-
 public class TokenController {
 
     private final JwtEncoder jwtEncoder;
@@ -34,10 +33,11 @@ public class TokenController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest loginRequest) {
 
-       var user = userRepository.findByEmail(loginRequest.email());
+       var user = userRepository.findByUserName(loginRequest.userName());
 
-       if (user.isEmpty() || user.get().isLoginCorrect(loginRequest, passwordEncoder)) {
-           throw new BadCredentialsException("email or password is invalid!");
+       if (user.isEmpty() || !user.get().isLoginCorrect(loginRequest, passwordEncoder)) {
+           System.out.println("Passei aqui ou seja deu errado.");
+           throw new BadCredentialsException("userName or password is invalid!");
        }
 
        var now = Instant.now();
@@ -47,7 +47,7 @@ public class TokenController {
                .issuer("mybackend")
                .subject(user.get().getUserId().toString())
                .issuedAt(now)
-               .expiresAt(now.minusSeconds(expiresIn))
+               .expiresAt(now.plusSeconds(expiresIn))
                .build();
 
        var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
