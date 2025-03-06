@@ -24,7 +24,8 @@ public class User {
     @Column(name = "user_id")
     private UUID userId;
 
-    private String email;
+    @Column(unique = true)
+    private String userName;
 
     private String password;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -43,12 +44,12 @@ public class User {
         this.userId = userId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
