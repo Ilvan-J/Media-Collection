@@ -1,4 +1,4 @@
 package com.ilvan.media_collection.controller.dto;
 
-public record LoginRequest (String userName, String password){
+public record LoginRequest (String email, String password){
 }

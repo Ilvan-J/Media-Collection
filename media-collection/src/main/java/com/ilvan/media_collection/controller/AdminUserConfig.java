@@ -32,7 +32,7 @@ public class AdminUserConfig implements CommandLineRunner {
     public void run(String... args) throws Exception {
         var roleAdmin = roleRepository.findByName(Role.Values.ADMIN.name());
 
-        var userAdmin = userRepository.findByUserName("admin");
+        var userAdmin = userRepository.findByEmail("admin@gmail.com");
 
         userAdmin.ifPresentOrElse(
                 user -> {
@@ -40,7 +40,7 @@ public class AdminUserConfig implements CommandLineRunner {
                 },
                 () -> {
                     var user = new User();
-                    user.setUserName("admin");
+                    user.setEmail("admin@gmail.com");
                     user.setPassword(passwordEncoder.encode("123"));
                     user.setRoles(Set.of(roleAdmin));
                     userRepository.save(user);
