@@ -1,11 +1,8 @@
 package com.ilvan.media_collection.services;
 
-import com.ilvan.media_collection.controller.dto.LoginRequest;
-import com.ilvan.media_collection.controller.dto.LoginResponse;
-import com.ilvan.media_collection.controller.erros.CustomGenericException;
-import com.ilvan.media_collection.repositories.UserRepository;
+import java.time.Instant;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -13,7 +10,10 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
+import com.ilvan.media_collection.controller.dto.LoginRequest;
+import com.ilvan.media_collection.controller.dto.LoginResponse;
+import com.ilvan.media_collection.controller.erros.CustomGenericException;
+import com.ilvan.media_collection.repositories.UserRepository;
 
 @Service
 public class TokenService {
@@ -34,7 +34,7 @@ public class TokenService {
         var user = userRepository.findByEmail(loginRequest.email());
 
         if (user.isEmpty() || !user.get().isLoginCorrect(loginRequest, passwordEncoder)) {
-            throw new CustomGenericException("email or password is invalid!", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new CustomGenericException("email or password is invalid!", HttpStatus.UNAUTHORIZED);
         }
 
         var now = Instant.now();

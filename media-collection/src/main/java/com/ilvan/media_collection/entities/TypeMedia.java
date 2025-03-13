@@ -2,17 +2,9 @@ package com.ilvan.media_collection.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "tb_type_media")
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class TypeMedia {
 
     @Id
@@ -22,4 +14,27 @@ public class TypeMedia {
 
     private String name;
 
+    public TypeMedia() {
+    }
+
+    public TypeMedia(Long idTypeMedia, String name) {
+        this.idTypeMedia = idTypeMedia;
+        this.name = name;
+    }
+
+    public Long getIdTypeMedia() {
+        return idTypeMedia;
+    }
+
+    public void setIdTypeMedia(Long idTypeMedia) {
+        this.idTypeMedia = idTypeMedia;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

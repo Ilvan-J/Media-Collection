@@ -2,10 +2,6 @@ package com.ilvan.media_collection.entities;
 
 import com.ilvan.media_collection.controller.dto.LoginRequest;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
@@ -13,10 +9,6 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tb_users")
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class User {
 
     @Id
@@ -35,6 +27,16 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    public User() {
+    }
+
+    public User(UUID userId, String email, String password, Set<Role> roles) {
+        this.userId = userId;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
 
     public UUID getUserId() {
         return userId;

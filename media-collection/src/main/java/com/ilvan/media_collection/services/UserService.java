@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Set;
 
@@ -36,7 +35,7 @@ public class UserService {
         var userFromDb = userRepository.findByEmail(dto.email());
 
         if (userFromDb.isPresent()) {
-            throw new CustomGenericException("Email alredy in use", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new CustomGenericException("Email alredy in use", HttpStatus.CONFLICT);
         }
 
         var user = new User();

@@ -1,10 +1,8 @@
 package com.ilvan.media_collection.configuration;
 
-import com.ilvan.media_collection.controller.erros.CustomGenericException;
-import com.nimbusds.jose.jwk.JWK;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,9 +19,10 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.rmi.RemoteException;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
+import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 
 @Configuration
 @EnableWebSecurity
@@ -35,12 +34,20 @@ public class SecurityConfiguration {
     @Value("${jwt.private.key}")
     private RSAPrivateKey privateKey;
 
+    private static final String POST = "POST";
+    private static final String PUT = "PUT";
+    private static final String GET = "GET";
+    private static final String DELETE = "DELETE";
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/media-collection/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/media-collection/users/newUser").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/media-collection/medias/save").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/media-collection/medias/list-all").authenticated()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
