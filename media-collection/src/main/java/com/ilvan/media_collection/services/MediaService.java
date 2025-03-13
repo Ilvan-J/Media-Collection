@@ -85,4 +85,31 @@ public class MediaService {
                 media.getModificationDate()
         ));
     }
+
+    @Transactional
+    public void updateMedia(UUID idMedia, MediaRequestDto dto) {
+
+        var media = modelMapper.map(dto, Media.class);
+
+        media = mediaRepository.findById(idMedia)
+                .orElseThrow(() -> new CustomGenericException("Media not found", HttpStatus.NOT_FOUND));
+        
+        var typeMedia = typeMediaRepository.findById(dto.idTypeMedia())
+                .orElseThrow(() -> new CustomGenericException("Type media not found", HttpStatus.NOT_FOUND));
+
+        var productionStatus = productionStatusRepository.findById(dto.idProductionStatus())
+                .orElseThrow(() -> new CustomGenericException("Production status not found", HttpStatus.NOT_FOUND));
+
+        var watchingStatus = watchingStatusRepository.findById(dto.idWatchingStatus())
+                .orElseThrow(() -> new CustomGenericException("Watching status not found", HttpStatus.NOT_FOUND));
+
+        media.setIdMedia(idMedia);
+        media.setName(dto.name());
+        media.setSeasons(dto.seasons());
+        media.setTypeMedia(typeMedia);
+        media.setProductionStatus(productionStatus);
+        media.setWatchingStatus(watchingStatus);
+
+        mediaRepository.save(media);
+    }
 }

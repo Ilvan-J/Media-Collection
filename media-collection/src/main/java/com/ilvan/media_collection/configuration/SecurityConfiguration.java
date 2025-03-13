@@ -47,6 +47,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/media-collection/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/media-collection/users/newUser").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/media-collection/medias/save").authenticated()
+                        .requestMatchers(HttpMethod.PUT,"/api/media-collection/medias/update/{id}").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/media-collection/medias/list-all").authenticated()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())

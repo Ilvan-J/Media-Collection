@@ -52,9 +52,7 @@ public class Media {
                  TypeMedia typeMedia,
                  ProductionStatus productionStatus,
                  WatchingStatus watchingStatus,
-                 User user,
-                 LocalDateTime dateOfAdded,
-                 LocalDateTime modificationDate) {
+                 User user) {
         this.idMedia = idMedia;
         this.name = name;
         this.seasons = seasons;
@@ -62,8 +60,6 @@ public class Media {
         this.productionStatus = productionStatus;
         this.watchingStatus = watchingStatus;
         this.user = user;
-        this.dateOfAdded = dateOfAdded;
-        this.modificationDate = modificationDate;
     }
 
     public UUID getIdMedia() {
@@ -126,15 +122,7 @@ public class Media {
         return dateOfAdded;
     }
 
-    public void setDateOfAdded(LocalDateTime dateOfAdded) {
-        this.dateOfAdded = dateOfAdded;
-    }
-
     public LocalDateTime getModificationDate() {
         return modificationDate;
-    }
-
-    public void setModificationDate(LocalDateTime modificationDate) {
-        this.modificationDate = modificationDate;
     }
 }
