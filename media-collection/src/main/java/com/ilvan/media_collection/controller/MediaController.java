@@ -46,4 +46,11 @@ public class MediaController {
         mediaService.updateMedia(idMedia, dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteMedia(@PathVariable(name = "id") UUID id, JwtAuthenticationToken token) {
+        mediaService.deleteMedia(id, token);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }

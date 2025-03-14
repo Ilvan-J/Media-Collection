@@ -112,4 +112,17 @@ public class MediaService {
 
         mediaRepository.save(media);
     }
+
+    @Transactional
+    public void deleteMedia(UUID id, JwtAuthenticationToken token) {
+        var userId = UUID.fromString(token.getToken().getSubject());
+        var media = mediaRepository.findById(id)
+                .orElseThrow(() -> new CustomGenericException("Media not found", HttpStatus.NOT_FOUND));
+
+        if (!media.getUser().getUserId().equals(userId)) {
+            throw new CustomGenericException("You are not authorized to delete this media", HttpStatus.FORBIDDEN);
+        }
+
+        mediaRepository.delete(media);
+    }
 }
