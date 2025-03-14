@@ -16,7 +16,7 @@ Mapeamento de todas as rotas relacionadas ao gerenciamento de usuários
 ### Request
 
 ~~~http
-POST /api-colecao-de-midias/usuarios/cadastrar-usuario
+POST /api/media-collection/users/newUser
 HOST: localhost: 8080
 Content-Type: application/json
 ~~~
@@ -24,7 +24,7 @@ Content-Type: application/json
 ~~~json
 {
   "email": "exemploemail@gmail.com",
-  "senha": "Sn6Xl#mJ8S5#vs#"
+  "password": "Sn6Xl#mJ8S5#vs#"
 }
 ~~~
 
@@ -34,18 +34,12 @@ Content-Type: application/json
 statusCode: 201
 ~~~
 
-~~~json
-{
-  "email": "exemploemail@gmail.com"
-}
-~~~
-
 ## Login de usuário
 
 ### Request
 
 ~~~http
-POST /api-colocao-de-midias/usuarios/login-de-usuario
+POST /api/media-collection/login
 HOST: localhost:8080
 Content-Type: application/json
 ~~~
@@ -61,12 +55,13 @@ Content-Type: application/json
 ### observação id de usuário necessário para consultas é codificado no token
 
 ~~~http 
-statusCode: 203
+statusCode: 200
 ~~~
 
 ~~~json
 {
-  "token": "ajsajbd25#sdvhvhda#hbhh#vgvdhasgdv#vds"
+  "accessToken": "ajsajbd25#sdvhvhda#hbhh#vgvdhasgdv#vds",
+  "expiresIn": 300
 }
 ~~~
 
@@ -78,36 +73,25 @@ Mapeamento de todas as rotas relacionadas as mídias
 ### Request
 
 ~~~ http
-POST / api/colecao-de-midias/midias/salvar-midia
+POST / api/media-collection/medias//list-all
 HOST: localhost:8080
 Content-Type: application/json
-Header: Bearer {token_de_acesso}
+Authorization: Bearer {token_de_acesso}
 ~~~
 
 ~~~ json
 {
-  "nomeDaMidia":  "Dragon Ball Z",
-  "tipoDeMidiaId":  1,
-  "temporadas":  5,
-  "statusProducaoId":  1,
-  "statusAcompanhamentoId":  1
- }
+    "name": "Dragon Ball Z",
+    "seasons": 5,
+    "idTypeMedia": 3,
+    "idProductionStatus": 1,
+    "idWatchingStatus": 1
+}
  ~~~
 
 ### Response
 ~~~http
 StatusCode: 201
-~~~
-~~~ json
-{
-  "nomeDaMidia":  "Dragon Ball Z",
-  "tipoDeMidiaId":  1,
-  "temporadas":  5,
-  "statusProducaoId":  1,
-  "statusAcompanhamentoId":  1,
-  "dataDaAdicao":  "22-12-2024",
-  "dataDeModificacao":  "22-12-2024"
-}
 ~~~
 
 ## Exibir todas as mídias
@@ -119,9 +103,6 @@ GET / api/colecao-de-midias/midias/listar-midias
 HOST: localhost:8080
 Content-Type: application/json
 Header: Bearer {token_de_acesso}
-statusDeAcompanhamento: {opcional, ex: "finalizado"}?
-ordemDeAdicao: {opcional, ex; "ASC"}
-
 ~~~
 
 ### Response 
@@ -131,17 +112,46 @@ StatusCode: 200
 ~~~
 
 ~~~json
-[
-  {
-   "nomeDaMidia":  "Dragon Ball Z",
-   "tipoDeMidia":  "Anime",
-   "temporadas":  5,
-   "statusProducao":  "Finalizado",
-   "statusDeAcompanhamento":  "Finalizado",
-   "dataDaAdicao":  "22-12-2024",
-   "dataDeModificacao":  "22-12-2024"
-  }
-]
+{
+    "content": [
+        {
+            "idMedia": "20d17bf4-f56d-4332-9491-b3cbfe17909e",
+            "name": "Dragon Ball Z",
+            "seasons": 5,
+            "nameTypeMedia": "Anime",
+            "nameProductionStatus": "Finalizado",
+            "nameWatchingStatus": "Assistido",
+            "userEmail": "admin@gmail.com",
+            "dateOfAdded": "2025-03-14T10:36:00.949725",
+            "modificationDate": "2025-03-14T10:36:00.949725"
+        }
+    ],
+    "pageable": {
+        "pageNumber": 0,
+        "pageSize": 10,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "offset": 0,
+        "unpaged": false,
+        "paged": true
+    },
+    "last": true,
+    "totalPages": 1,
+    "totalElements": 1,
+    "size": 10,
+    "number": 0,
+    "sort": {
+        "empty": false,
+        "sorted": true,
+        "unsorted": false
+    },
+    "first": true,
+    "numberOfElements": 1,
+    "empty": false
+}
 ~~~
 
 ## Exibir detalhes de uma mídia
@@ -162,16 +172,17 @@ StatusCode: 200
 ~~~
 
  ``` json
-  {
-    "id": 1,
-    "nome":  "Dragon Ball Z",
-    "tipoDeMidia":  "Anime",
-    "temporadas":  5,
-    "statusDaProducao":  "Finalizado",
-    "statusDeAcompanhamento":  "Finalizado",
-    "dataDaAdicao":  "22-12-2024",
-    "dataDeModificacao":  "22-12-2024"
-  }
+{
+            "idMedia": "20d17bf4-f56d-4332-9491-b3cbfe17909e",
+            "name": "Dragon Ball Z",
+            "seasons": 5,
+            "nameTypeMedia": "Anime",
+            "nameProductionStatus": "Finalizado",
+            "nameWatchingStatus": "Assistido",
+            "userEmail": "admin@gmail.com",
+            "dateOfAdded": "2025-03-14T10:36:00.949725",
+            "modificationDate": "2025-03-14T10:36:00.949725"
+        }
 ```
 
 ## Atualizar uma mídia
@@ -179,7 +190,7 @@ StatusCode: 200
 ### Request
 
 ~~~http
-PUT /api/colecao-de-midias/midias/atualizar-midia/{id_midia}
+PUT /api/media-collection/medias/update/{id_media}
 HOST: localhost:8080
 Content-Type: application/json
 Header: Bearer {token_de_acesso}
@@ -199,17 +210,6 @@ Header: Bearer {token_de_acesso}
 ~~~http
 StatusCode: 200
 ~~~
-~~~ json
-{
-  "nomeDaMidia":  "Dragon Ball Z",
-  "tipoDeMidiaId":  1,
-  "temporadas":  5,
-  "statusProducaoId":  1,
-  "statusAcompanhamentoId":  1,
-  "dataDaAdicao":  "22-12-2024",
-  "dataDeModificacao":  "23-12-2024"
-}
-~~~
 
 ## Apagar uma mídia
 
@@ -226,10 +226,4 @@ Header: Bearer {token_de_acesso}
 
 ~~~http
 StatusCode: 204
-~~~
-
-~~~json
-{
-  "messagem": "Mídia apagada com sucesso"
-}
 ~~~
