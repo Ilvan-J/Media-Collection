@@ -49,7 +49,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST,"/api/media-collection/medias/save").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/media-collection/medias/list-all").authenticated()
                         .requestMatchers(HttpMethod.PUT,"/api/media-collection/medias/update/{id}").authenticated()
-                        .requestMatchers(HttpMethod.PUT,"/api/media-collection/medias/delete/{id}").authenticated()
+                        .requestMatchers(HttpMethod.DELETE,"/api/media-collection/medias/delete/{id}").authenticated()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))

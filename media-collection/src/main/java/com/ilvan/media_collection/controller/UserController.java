@@ -3,6 +3,7 @@ package com.ilvan.media_collection.controller;
 
 import com.ilvan.media_collection.controller.dto.CreateUserDto;
 import com.ilvan.media_collection.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,6 @@ public class UserController {
     @PostMapping("/newUser")
     public ResponseEntity<Void> newUser (@RequestBody CreateUserDto dto) {
         userService.createUser(dto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
