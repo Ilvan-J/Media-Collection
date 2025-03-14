@@ -42,8 +42,9 @@ public class MediaController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Void> updateMedia(@PathVariable(name = "id") UUID idMedia, @RequestBody MediaRequestDto dto) {
-        mediaService.updateMedia(idMedia, dto);
+    public ResponseEntity<Void> updateMedia(@PathVariable(name = "id") UUID idMedia,
+                                            @RequestBody MediaRequestDto dto, JwtAuthenticationToken token) {
+        mediaService.updateMedia(idMedia, dto, token);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
