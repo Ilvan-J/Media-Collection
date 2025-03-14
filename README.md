@@ -102,7 +102,7 @@ StatusCode: 201
 GET / api/colecao-de-midias/midias/listar-midias
 HOST: localhost:8080
 Content-Type: application/json
-Header: Bearer {token_de_acesso}
+Authorization: Bearer {token_de_acesso}
 ~~~
 
 ### Response 
@@ -162,7 +162,7 @@ StatusCode: 200
 GET / api/colecao-de-midias/midias/detalhes-midia/{id}
 HOST: localhost:8080
 Content-Type: application/json
-Header: Bearer {token_de_acesso}
+Authorization: Bearer {token_de_acesso}
 ```
 
 ### Response
@@ -173,16 +173,16 @@ StatusCode: 200
 
  ``` json
 {
-            "idMedia": "20d17bf4-f56d-4332-9491-b3cbfe17909e",
-            "name": "Dragon Ball Z",
-            "seasons": 5,
-            "nameTypeMedia": "Anime",
-            "nameProductionStatus": "Finalizado",
-            "nameWatchingStatus": "Assistido",
-            "userEmail": "admin@gmail.com",
-            "dateOfAdded": "2025-03-14T10:36:00.949725",
-            "modificationDate": "2025-03-14T10:36:00.949725"
-        }
+    "idMedia": "20d17bf4-f56d-4332-9491-b3cbfe17909e",
+    "name": "Dragon Ball Z",
+    "seasons": 5,
+    "nameTypeMedia": "Anime",
+    "nameProductionStatus": "Finalizado",
+    "nameWatchingStatus": "Assistido",
+    "userEmail": "admin@gmail.com",
+    "dateOfAdded": "2025-03-14T10:36:00.949725",
+    "modificationDate": "2025-03-14T10:36:00.949725"
+  }
 ```
 
 ## Atualizar uma mídia
@@ -193,17 +193,17 @@ StatusCode: 200
 PUT /api/media-collection/medias/update/{id_media}
 HOST: localhost:8080
 Content-Type: application/json
-Header: Bearer {token_de_acesso}
+Authorization: Bearer {token_de_acesso}
 ~~~
 
 ~~~json
- {
-   "nomeDaMidia":  "Dragon Ball Z",
-   "tipoDeMidiaId":  1,
-   "temporadas":  5,
-   "statusProducaoId":  1,
-   "statusAcompanhamentoId":  1
- }
+{
+    "name": "Dragon Ball Z",
+    "seasons": 5,
+    "idTypeMedia": 3,
+    "idProductionStatus": 1,
+    "idWatchingStatus": 1
+}
 ~~~
 
 ### Response
@@ -219,7 +219,7 @@ StatusCode: 200
 DELETE / api/colecao-de-midias/midias/apagar-midia/{id_midia}
 HOST: localhost:8080
 Content-Type: application/json
-Header: Bearer {token_de_acesso}
+Authorization: Bearer {token_de_acesso}
 ~~~
 
 ### Response
