@@ -41,6 +41,11 @@ public class MediaController {
         return ResponseEntity.status(HttpStatus.OK).body(medias);
     }
 
+    @GetMapping("/details/{id}")
+    public ResponseEntity<MediaResponseDto> getMediaById(@PathVariable(name = "id") UUID id, JwtAuthenticationToken token) {
+        return ResponseEntity.status(HttpStatus.OK).body(mediaService.getMediaById(id, token));
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Void> updateMedia(@PathVariable(name = "id") UUID idMedia,
                                             @RequestBody MediaRequestDto dto, JwtAuthenticationToken token) {

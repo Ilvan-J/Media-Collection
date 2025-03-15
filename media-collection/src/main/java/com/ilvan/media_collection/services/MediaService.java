@@ -87,6 +87,28 @@ public class MediaService {
     }
 
     @Transactional
+    public MediaResponseDto getMediaById(UUID id, JwtAuthenticationToken token) {
+        var media = mediaRepository.findById(id)
+                .orElseThrow(() -> new CustomGenericException("Media not found!", HttpStatus.NOT_FOUND));
+
+        var userIdReceived = UUID.fromString(token.getToken().getSubject());
+
+        if(!media.getUser().getUserId().equals(userIdReceived)) {
+            throw new CustomGenericException("You are not authorized to read ", HttpStatus.FORBIDDEN);
+        }
+
+        return new MediaResponseDto(media.getIdMedia(),
+                media.getName(),
+                media.getSeasons(),
+                media.getTypeMedia().getName(),
+                media.getProductionStatus().getName(),
+                media.getWatchingStatus().getName(),
+                media.getUser().getEmail(),
+                media.getDateOfAdded(),
+                media.getModificationDate());
+    }
+
+    @Transactional
     public void updateMedia(UUID idMedia, MediaRequestDto dto, JwtAuthenticationToken token) {
 
         var media = modelMapper.map(dto, Media.class);

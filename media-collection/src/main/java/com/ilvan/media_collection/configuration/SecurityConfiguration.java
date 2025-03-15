@@ -48,6 +48,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/media-collection/users/newUser").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/media-collection/medias/save").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/media-collection/medias/list-all").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/api/media-collection/medias/details/{id}").authenticated()
                         .requestMatchers(HttpMethod.PUT,"/api/media-collection/medias/update/{id}").authenticated()
                         .requestMatchers(HttpMethod.DELETE,"/api/media-collection/medias/delete/{id}").authenticated()
                         .anyRequest().authenticated())
