@@ -2,6 +2,7 @@ package com.ilvan.media_collection.controller.erros;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -17,9 +18,18 @@ public class CustomGlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-
     public ResponseEntity<CustomErrorResponse> handlerAllExceptions(Exception ex) {
-        return buildErrorResponse("An internal server error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+        return buildErrorResponse("An internal server error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<CustomErrorResponse> handlerValidationExceptions(MethodArgumentNotValidException ex) {
+        var message = new StringBuilder();
+        ex.getBindingResult().getFieldErrors().forEach(error -> {
+            message.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; ");
+        });
+
+        return buildErrorResponse(message.toString(), HttpStatus.BAD_REQUEST);
     }
 
     private ResponseEntity<CustomErrorResponse> buildErrorResponse(String message, HttpStatus status) {
