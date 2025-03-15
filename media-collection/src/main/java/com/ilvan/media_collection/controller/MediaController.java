@@ -1,6 +1,7 @@
 package com.ilvan.media_collection.controller;
 
 
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -26,7 +27,7 @@ public class MediaController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Void> newMedia(@RequestBody MediaRequestDto dto, JwtAuthenticationToken token) {
+    public ResponseEntity<Void> newMedia(@RequestBody @Valid MediaRequestDto dto, JwtAuthenticationToken token) {
         mediaService.saveMedia(dto, token);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
