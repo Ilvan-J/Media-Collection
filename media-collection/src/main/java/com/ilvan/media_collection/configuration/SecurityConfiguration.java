@@ -2,6 +2,7 @@ package com.ilvan.media_collection.configuration;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,9 @@ import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -34,6 +38,9 @@ public class SecurityConfiguration {
     @Value("${jwt.private.key}")
     private RSAPrivateKey privateKey;
 
+    @Value("${cors.allowed.origins}")
+    private String[] allowedOrigins;
+
     private static final String POST = "POST";
     private static final String PUT = "PUT";
     private static final String GET = "GET";
@@ -43,12 +50,13 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/api/media-collection/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/media-collection/users/newUser").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/media-collection/login",
+                                "/api/media-collection/users/newUser").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/media-collection/medias/save").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/api/media-collection/medias/list-all").authenticated()
-                        .requestMatchers(HttpMethod.GET,"/api/media-collection/medias/details/{id}").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/api/media-collection/medias/details/{id}",
+                                "/api/media-collection/medias/list-all").authenticated()
                         .requestMatchers(HttpMethod.PUT,"/api/media-collection/medias/update/{id}").authenticated()
                         .requestMatchers(HttpMethod.DELETE,"/api/media-collection/medias/delete/{id}").authenticated()
                         .anyRequest().authenticated())
@@ -86,4 +94,15 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        var configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of(allowedOrigins));
+        configuration.setAllowedMethods(List.of(POST, GET, PUT, DELETE));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+        var source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }
