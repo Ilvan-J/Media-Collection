@@ -102,9 +102,9 @@ StatusCode: 201
 | `productionStatus` | `Long` | Filtra mídias pelo ID do status de produção (ex.: `1` Em Produção, `2` para Finalizado) | `1` | Não
 | `watchingStatus` | `Long` | Filtra mídias pelo ID do status de visualização (ex.: `1` para Assistindo, `2` para Concluído) | `1` | Não
 | `name` | `String` | Filtra mídias que contenham a palavra fornecida no nome. | `Dragon` | Não
-| `orderBy` | `String` | Define o campo para ordenação. Valores possíveis: `dateOfAdded` ou `modificationDate`. | Não
+| `orderBy` | `String` | Define o campo para ordenação. Valores possíveis: `dateOfAdded` ou `modificationDate`. | `dateOfAdded` | Não
 | `orderDirection` | `String` | Direção da ordenação. Valores possíveis: `asc` (crescente) ou `desc` (decrescente). | `desc` | Não
-| `page` | `int` | Número da página para paginação. | 0 | Não
+| `page` | `int` | Número da página para paginação. | `0` | Não
 | `pageSize` | `int` | Quantidade de itens por página. | `10` | Não
 
 ### Request
