@@ -33,12 +33,21 @@ public class MediaController {
     }
 
     @GetMapping("/list-all")
-    public ResponseEntity<Page<MediaResponseDto>> getAllMedia(@RequestParam(value = "page", defaultValue = "0") int page,
+    public ResponseEntity<Page<MediaResponseDto>> getAllMedia(
+                                                   @RequestParam(value = "typeMedia", required = false) Long typeMedia,
+                                                   @RequestParam(value = "productionStatus", required = false) Long productionStatus,
+                                                   @RequestParam(value = "watchingStatus", required = false) Long watchingStatus,
+                                                   @RequestParam(value = "name", required = false) String name,
+                                                   @RequestParam(value = "orderBy", defaultValue = "dateOfAdded") String orderBy,
+                                                   @RequestParam(value = "orderDirection", defaultValue = "desc") String orderDirection,
+                                                   @RequestParam(value = "page", defaultValue = "0") int page,
                                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                                                    JwtAuthenticationToken token) {
-        var pageable = PageRequest.of(page, pageSize, Sort.Direction.DESC, "dateOfAdded");
+        var pageable = PageRequest.of(page, pageSize);
 
-        var medias = mediaService.getAllMedias(pageable, token);
+        var medias = mediaService.findWithFilterAndSorting(
+                typeMedia, productionStatus, watchingStatus, name, orderBy, orderDirection, pageable,token
+        );
         return ResponseEntity.status(HttpStatus.OK).body(medias);
     }
 
