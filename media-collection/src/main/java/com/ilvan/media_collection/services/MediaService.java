@@ -1,5 +1,16 @@
 package com.ilvan.media_collection.services;
 
+import java.util.UUID;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.ilvan.media_collection.controller.dto.request.MediaRequestDto;
 import com.ilvan.media_collection.controller.dto.response.MediaResponseDto;
 import com.ilvan.media_collection.controller.erros.CustomGenericException;
@@ -7,16 +18,11 @@ import com.ilvan.media_collection.entities.Media;
 import com.ilvan.media_collection.entities.ProductionStatus;
 import com.ilvan.media_collection.entities.TypeMedia;
 import com.ilvan.media_collection.entities.WatchingStatus;
-import com.ilvan.media_collection.repositories.*;
-import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.yaml.snakeyaml.tokens.Token;
-
-import java.util.UUID;
+import com.ilvan.media_collection.repositories.MediaRepository;
+import com.ilvan.media_collection.repositories.ProductionStatusRepository;
+import com.ilvan.media_collection.repositories.TypeMediaRepository;
+import com.ilvan.media_collection.repositories.UserRepository;
+import com.ilvan.media_collection.repositories.WatchingStatusRepository;
 
 @Service
 public class MediaService {

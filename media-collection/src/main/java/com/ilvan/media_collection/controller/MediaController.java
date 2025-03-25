@@ -1,19 +1,17 @@
 package com.ilvan.media_collection.controller;
 
 
+import com.ilvan.media_collection.controller.dto.request.MediaRequestDto;
+import com.ilvan.media_collection.controller.dto.response.MediaResponseDto;
+import com.ilvan.media_collection.services.MediaService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
-
-import com.ilvan.media_collection.controller.dto.request.MediaRequestDto;
-import com.ilvan.media_collection.controller.dto.response.MediaResponseDto;
-import com.ilvan.media_collection.services.MediaService;
 
 import java.util.UUID;
 
