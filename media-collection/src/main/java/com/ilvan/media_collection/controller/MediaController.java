@@ -1,6 +1,7 @@
 package com.ilvan.media_collection.controller;
 
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/media-collection/medias")
+@SecurityRequirement(name = "Bearer Authentication")
 public class MediaController {
 
     private final MediaService mediaService;

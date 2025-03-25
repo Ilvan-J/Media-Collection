@@ -52,6 +52,7 @@ public class SecurityConfiguration {
         http
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers( "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**","/configuration/ui").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/media-collection/login",
                                 "/api/media-collection/users/newUser").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/media-collection/medias/save").authenticated()
