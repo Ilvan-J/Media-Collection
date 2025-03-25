@@ -8,7 +8,7 @@ import com.ilvan.media_collection.services.TokenService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/media-collection")
+@RequestMapping("/api/media-collection/token")
 public class TokenController {
 
     private final TokenService tokenService;

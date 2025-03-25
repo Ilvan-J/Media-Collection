@@ -51,14 +51,10 @@ public class SecurityConfiguration {
         http
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers( "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**","/configuration/ui").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/media-collection/login",
-                                "/api/media-collection/users/newUser").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/api/media-collection/medias/save").authenticated()
-                        .requestMatchers(HttpMethod.GET,"/api/media-collection/medias/details/{id}",
-                                "/api/media-collection/medias/list-all").authenticated()
-                        .requestMatchers(HttpMethod.PUT,"/api/media-collection/medias/update/{id}").authenticated()
-                        .requestMatchers(HttpMethod.DELETE,"/api/media-collection/medias/delete/{id}").authenticated()
+                        .requestMatchers( "/swagger-ui/**",  "/v3/api-docs/**","/configuration/ui").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/media-collection/**").permitAll()
+                        .requestMatchers("/api/media-collection/medias/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/media-collection/type-media/getAll").authenticated()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
