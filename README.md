@@ -73,7 +73,7 @@ Mapeamento de todas as rotas relacionadas as mídias
 ### Request
 
 ~~~ http
-POST / api/media-collection/medias/list-all
+POST / api/media-collection/medias/save
 HOST: localhost:8080
 Content-Type: application/json
 Authorization: Bearer {token_de_acesso}
