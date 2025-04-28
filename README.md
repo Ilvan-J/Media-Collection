@@ -39,7 +39,7 @@ statusCode: 201
 ### Request
 
 ~~~http
-POST /api/media-collection/login
+POST /api/media-collection/token/login
 HOST: localhost:8080
 Content-Type: application/json
 ~~~
