@@ -24,7 +24,7 @@ public class TypeMediaController {
         this.typeMediaService = typeMediaService;
     }
 
-    @GetMapping(name = "/getAll")
+    @GetMapping("/getAll")
     public ResponseEntity<Page<TypeMediaResponseDTO>> getAllMedias(@PageableDefault(page = 0,
             size = 10,
             sort = "name",
