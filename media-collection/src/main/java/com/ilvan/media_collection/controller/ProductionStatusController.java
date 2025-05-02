@@ -2,6 +2,7 @@ package com.ilvan.media_collection.controller;
 
 import com.ilvan.media_collection.controller.dto.response.ProductionStatusResponseDto;
 import com.ilvan.media_collection.services.ProductionStatusService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/media-collection/production-status")
+@SecurityRequirement(name = "Bearer Authentication")
 public class ProductionStatusController {
 
     private final ProductionStatusService productionStatusService;
