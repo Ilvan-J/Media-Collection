@@ -4,10 +4,10 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.List;
 
+import com.ilvan.media_collection.configuration.security.CookieTokenResolver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -45,6 +46,8 @@ public class SecurityConfiguration {
     private static final String GET = "GET";
     private static final String DELETE = "DELETE";
 
+    @Value("${jwt.cookiename.token}")
+    private String jwtCookieName;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -55,7 +58,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/media-collection/token/**", "/api/media-collection/users/**").permitAll()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())
+                        .bearerTokenResolver(cookieTokenResolver()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint((request, response, authException) -> {
@@ -98,5 +102,10 @@ public class SecurityConfiguration {
         var source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    public BearerTokenResolver cookieTokenResolver() {
+        return new CookieTokenResolver(this.jwtCookieName);
     }
 }

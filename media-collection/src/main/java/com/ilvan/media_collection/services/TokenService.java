@@ -2,7 +2,10 @@ package com.ilvan.media_collection.services;
 
 import java.time.Instant;
 
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -11,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ilvan.media_collection.controller.dto.LoginRequest;
-import com.ilvan.media_collection.controller.dto.LoginResponse;
 import com.ilvan.media_collection.controller.erros.CustomGenericException;
 import com.ilvan.media_collection.repositories.UserRepository;
 
@@ -20,6 +22,8 @@ public class TokenService {
     private final JwtEncoder jwtEncoder;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    @Value("${jwt.cookiename.token}")
+    private String jwtCookieName;
 
     public TokenService(JwtEncoder jwtEncoder,
                         UserRepository userRepository,
@@ -30,7 +34,7 @@ public class TokenService {
     }
 
     @Transactional
-    public LoginResponse login(LoginRequest loginRequest) {
+    public void login(LoginRequest loginRequest, HttpServletResponse response) {
         var user = userRepository.findByEmail(loginRequest.email());
 
         if (user.isEmpty() || !user.get().isLoginCorrect(loginRequest, passwordEncoder)) {
@@ -49,6 +53,14 @@ public class TokenService {
 
         var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
-        return new LoginResponse(jwtValue, expiresIn);
+        var cookie = ResponseCookie.from(jwtCookieName, jwtValue)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(expiresIn)
+                .sameSite("Lax")
+                .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
     }
 }

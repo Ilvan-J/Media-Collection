@@ -1,5 +1,6 @@
 package com.ilvan.media_collection.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 
 import com.ilvan.media_collection.controller.dto.LoginRequest;
@@ -17,9 +18,9 @@ public class TokenController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest loginRequest) {
-        LoginResponse loginResponse = tokenService.login(loginRequest);
-        return ResponseEntity.ok(loginResponse);
+    public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+        tokenService.login(loginRequest, response);
+        return ResponseEntity.ok().build();
     }
 
 }
