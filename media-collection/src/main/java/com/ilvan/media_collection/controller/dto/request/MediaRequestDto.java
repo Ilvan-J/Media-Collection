@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record MediaRequestDto(@NotEmpty(message = "name field must not be empty") String name,
                               @NotNull(message = "seasons field cannot be null") Integer seasons,
-                              @NotNull(message = "idTypeMedia field cannot be null") Long idTypeMedia,
+                              @NotNull(message = "id field cannot be null") Long idTypeMedia,
                               @NotNull(message = "idProductionStatus field cannot be null") Long idProductionStatus,
                               @NotNull(message = "idWatchingStatus field cannot be null") Long idWatchingStatus) {
 }

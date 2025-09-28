@@ -1,4 +1,4 @@
 package com.ilvan.media_collection.controller.dto;
 
-public record TypeMediaResponseDTO(Long idTypeMedia, String name) {
+public record TypeMediaResponseDTO(Long id, String name) {
 }
