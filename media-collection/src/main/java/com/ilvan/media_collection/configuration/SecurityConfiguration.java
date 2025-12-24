@@ -55,7 +55,7 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers( "/swagger-ui/**",  "/v3/api-docs/**","/configuration/ui").permitAll()
-                        .requestMatchers("/api/media-collection/token/**", "/api/media-collection/users/**").permitAll()
+                        .requestMatchers("/api/media-collection/token/**", "/api/media-collection/users/newUser").permitAll()
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())
